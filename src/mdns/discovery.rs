@@ -104,7 +104,9 @@ impl Discover {
                     }
                     let props = info.get_properties();
                     let role = props.get("role").map(|role| role.val_str().to_owned());
-                    if let Some(expected_role) = &browse.role && role.as_deref() != Some(expected_role.as_str()) {
+                    if let Some(expected_role) = &browse.role
+                        && role.as_deref() != Some(expected_role.as_str())
+                    {
                         continue;
                     }
                     let uses_https = props
