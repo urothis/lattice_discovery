@@ -56,11 +56,11 @@ impl Discover {
         } else {
             let service_receiver = mdns.browse("_services._dns-sd._udp.local.")?;
             loop {
-                let event =
-                    match timeout(browse.idle_timeout, service_receiver.recv_async()).await {
-                        Ok(event) => event,
-                        Err(_) => break,
-                    };
+                let event = match timeout(browse.idle_timeout, service_receiver.recv_async()).await
+                {
+                    Ok(event) => event,
+                    Err(_) => break,
+                };
                 let event = match event {
                     Ok(event) => event,
                     Err(_) => break,
@@ -104,10 +104,10 @@ impl Discover {
                     }
                     let props = info.get_properties();
                     let role = props.get("role").map(|role| role.val_str().to_owned());
-                    if let Some(expected_role) = &browse.role {
-                        if role.as_deref() != Some(expected_role.as_str()) {
-                            continue;
-                        }
+                    if let Some(expected_role) = &browse.role
+                        && role.as_deref() != Some(expected_role.as_str())
+                    {
+                        continue;
                     }
                     let uses_https = props
                         .get("transport")
@@ -115,12 +115,8 @@ impl Discover {
                         .unwrap_or(browse.https);
                     for addr in info.get_addresses() {
                         let scheme = if uses_https { "https" } else { "http" };
-                        let address = format!(
-                            "{}://{}:{}/",
-                            scheme,
-                            addr.to_ip_addr(),
-                            info.get_port()
-                        );
+                        let address =
+                            format!("{}://{}:{}/", scheme, addr.to_ip_addr(), info.get_port());
                         let name = browse
                             .name
                             .clone()
