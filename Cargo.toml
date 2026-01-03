@@ -1,0 +1,16 @@
+[package]
+name = "lattice_discovery"
+version = "1.0.0"
+edition = "2024"
+description = "Minimal mDNS announcer/discovery helper for HTTP/HTTPS or TCP/UDP services"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/urothis/lattice-discovery"
+readme = "README.md"
+keywords = ["mdns", "service-discovery", "bonjour", "zeroconf", "networking"]
+categories = ["network-programming", "asynchronous"]
+
+[dependencies]
+if-addrs = "0.14"
+mdns-sd = "0.17"
+tokio = { version = "1", features = ["time"] }
+tracing = "0.1"
