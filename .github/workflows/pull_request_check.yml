@@ -1,0 +1,37 @@
+---
+on:
+  pull_request:
+    paths:
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - ".github/workflows/build.yml"
+      - "bins/**"
+      - "crates/**"
+name: Build
+env:
+  RUST_BACKTRACE: full
+  CARGO_TERM_COLOR: always
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: urothis/lattice_ops/.github/actions/rust/lint@main
+  build:
+    name: Build
+    needs: lint
+    strategy:
+      matrix:
+        target: [ubuntu-24.04] #, ubuntu-22.04-arm]
+    runs-on: ${{ matrix.target }}
+    steps:
+      - uses: urothis/lattice_ops/.github/actions/rust/install@main
+  test:
+    name: Test
+    needs: build
+    strategy:
+      matrix:
+        target: [ubuntu-24.04] #, ubuntu-22.04-arm]
+    runs-on: ${{ matrix.target }}
+    steps:
+      - uses: urothis/lattice_ops/.github/actions/rust/test@main
