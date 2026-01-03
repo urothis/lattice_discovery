@@ -5,12 +5,12 @@ use std::io::Read;
 async fn main() -> Result<()> {
     // Publish a demo service for others to browse.
     let mut discovery = Discover::new(
-        "server",         // role tag other peers match on
-        "demo-service",   // service name (must match on clients)
+        "server",                                // role tag other peers match on
+        "demo-service",                          // service name (must match on clients)
         &format!("demo-{}", std::process::id()), // instance identifier
-        8080,             // service port
-        false,            // udp?
-        false,            // https?
+        8080,                                    // service port
+        false,                                   // udp?
+        false,                                   // https?
     );
 
     discovery.publish().await?;
